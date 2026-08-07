@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEO Command Center</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2244%22 fill=%22none%22 stroke=%22%2322D3B8%22 stroke-width=%228%22/><circle cx=%2250%22 cy=%2250%22 r=%2222%22 fill=%22none%22 stroke=%22%2322D3B8%22 stroke-width=%228%22/><circle cx=%2250%22 cy=%2250%22 r=%226%22 fill=%22%2322D3B8%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" width="26" height="26">
+        <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="8"/>
+        <circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="8"/>
+        <circle cx="50" cy="50" r="6" fill="currentColor"/>
+      </svg>
+      <div class="brand-text">
+        <div class="brand-name">SEO Command Center</div>
+        <div class="brand-sub">v2.0 · real data engine</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-item active" data-view="analyze">
+        <span class="nav-idx">01</span> Analyze
+      </button>
+      <button class="nav-item" data-view="reports">
+        <span class="nav-idx">02</span> Reports
+      </button>
+      <button class="nav-item" data-view="earnings">
+        <span class="nav-idx">03</span> Earnings
+      </button>
+      <button class="nav-item" data-view="clients">
+        <span class="nav-idx">04</span> Clients
+      </button>
+      <button class="nav-item" data-view="setup">
+        <span class="nav-idx">05</span> Setup &amp; APIs
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="health-pill" id="healthPill">
+        <span class="dot" id="healthDot"></span>
+        <span id="healthText">checking engine…</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ============ ANALYZE ============ -->
+    <section class="view active" id="view-analyze">
+      <header class="view-head">
+        <h1>Run a real analysis</h1>
+        <p>Live crawl, PageSpeed, SSL, DNS and security checks against an actual website. No mock data.</p>
+      </header>
+
+      <form class="panel form-grid" id="analyzeForm">
+        <div class="field span-2">
+          <label for="f-url">Website URL <span class="req">*</span></label>
+          <input type="text" id="f-url" placeholder="yourbusiness.com" required>
+        </div>
+        <div class="field">
+          <label for="f-biz">Business name</label>
+          <input type="text" id="f-biz" placeholder="Acme Plumbing">
+        </div>
+        <div class="field">
+          <label for="f-loc">Location</label>
+          <input type="text" id="f-loc" placeholder="Streatham, London">
+        </div>
+        <div class="field">
+          <label for="f-niche">Niche</label>
+          <input type="text" id="f-niche" placeholder="emergency plumber">
+        </div>
+        <div class="field">
+          <label for="f-comp1">Competitor URL 1</label>
+          <input type="text" id="f-comp1" placeholder="optional">
+        </div>
+        <div class="field">
+          <label for="f-comp2">Competitor URL 2</label>
+          <input type="text" id="f-comp2" placeholder="optional">
+        </div>
+        <div class="field">
+          <label for="f-comp3">Competitor URL 3</label>
+          <input type="text" id="f-comp3" placeholder="optional">
+        </div>
+        <div class="field span-2 form-actions">
+          <button type="submit" class="btn btn-primary" id="runBtn">Run real analysis</button>
+          <span class="form-error" id="formError"></span>
+        </div>
+      </form>
+
+      <!-- scan console -->
+      <div class="panel scan-console" id="scanConsole" hidden>
+        <div class="scan-line-wrap"><div class="scan-line"></div></div>
+        <div class="scan-log" id="scanLog"></div>
+      </div>
+
+      <!-- results -->
+      <div id="analyzeResults"></div>
+    </section>
+
+    <!-- ============ REPORTS ============ -->
+    <section class="view" id="view-reports">
+      <header class="view-head">
+        <h1>Reports</h1>
+        <p>Every analysis is saved. Reopen, download, or remove past runs.</p>
+      </header>
+      <div class="panel" id="reportsPanel">
+        <table class="data-table" id="reportsTable">
+          <thead><tr><th>Business</th><th>URL</th><th>Location</th><th>Niche</th><th>Date</th><th></th></tr></thead>
+          <tbody id="reportsBody"></tbody>
+        </table>
+        <div class="empty-state" id="reportsEmpty" hidden>No reports yet — run your first analysis.</div>
+      </div>
+      <div id="reportDetail"></div>
+    </section>
+
+    <!-- ============ EARNINGS ============ -->
+    <section class="view" id="view-earnings">
+      <header class="view-head">
+        <h1>Earnings</h1>
+        <p>Track what each engagement actually paid.</p>
+      </header>
+
+      <form class="panel form-grid" id="earningsForm">
+        <input type="hidden" id="e-id">
+        <div class="field"><label for="e-client">Client <span class="req">*</span></label><input type="text" id="e-client" required></div>
+        <div class="field"><label for="e-service">Service <span class="req">*</span></label><input type="text" id="e-service" required></div>
+        <div class="field"><label for="e-hours">Hours</label><input type="number" id="e-hours" min="0" step="0.5"></div>
+        <div class="field"><label for="e-revenue">Revenue</label><input type="number" id="e-revenue" min="0" step="1"></div>
+        <div class="field"><label for="e-month">Month</label><input type="text" id="e-month" placeholder="2026-08"></div>
+        <div class="field span-2"><label for="e-notes">Notes</label><input type="text" id="e-notes"></div>
+        <div class="field span-2 form-actions">
+          <button type="submit" class="btn btn-primary" id="earningsSubmitBtn">Add earning</button>
+          <button type="button" class="btn btn-ghost" id="earningsCancelBtn" hidden>Cancel edit</button>
+        </div>
+      </form>
+
+      <div class="panel">
+        <div class="summary-row" id="earningsSummary"></div>
+        <table class="data-table">
+          <thead><tr><th>Client</th><th>Service</th><th>Hours</th><th>Revenue</th><th>Month</th><th>Notes</th><th></th></tr></thead>
+          <tbody id="earningsBody"></tbody>
+        </table>
+        <div class="empty-state" id="earningsEmpty" hidden>No earnings logged yet.</div>
+      </div>
+    </section>
+
+    <!-- ============ CLIENTS ============ -->
+    <section class="view" id="view-clients">
+      <header class="view-head">
+        <h1>Clients</h1>
+        <p>Everyone on retainer or under a one-off engagement.</p>
+      </header>
+
+      <form class="panel form-grid" id="clientsForm">
+        <input type="hidden" id="c-id">
+        <div class="field"><label for="c-name">Name <span class="req">*</span></label><input type="text" id="c-name" required></div>
+        <div class="field"><label for="c-website">Website</label><input type="text" id="c-website"></div>
+        <div class="field"><label for="c-email">Email</label><input type="email" id="c-email"></div>
+        <div class="field"><label for="c-phone">Phone</label><input type="text" id="c-phone"></div>
+        <div class="field"><label for="c-package">Package</label><input type="text" id="c-package" placeholder="Growth SEO"></div>
+        <div class="field">
+          <label for="c-status">Status</label>
+          <select id="c-status">
+            <option value="active">active</option>
+            <option value="paused">paused</option>
+            <option value="churned">churned</option>
+          </select>
+        </div>
+        <div class="field"><label for="c-revenue">Monthly revenue</label><input type="number" id="c-revenue" min="0" step="1"></div>
+        <div class="field span-2 form-actions">
+          <button type="submit" class="btn btn-primary" id="clientsSubmitBtn">Add client</button>
+          <button type="button" class="btn btn-ghost" id="clientsCancelBtn" hidden>Cancel edit</button>
+        </div>
+      </form>
+
+      <div class="panel">
+        <table class="data-table">
+          <thead><tr><th>Name</th><th>Website</th><th>Contact</th><th>Package</th><th>Status</th><th>Monthly</th><th></th></tr></thead>
+          <tbody id="clientsBody"></tbody>
+        </table>
+        <div class="empty-state" id="clientsEmpty" hidden>No clients yet.</div>
+      </div>
+    </section>
+
+    <!-- ============ SETUP ============ -->
+    <section class="view" id="view-setup">
+      <header class="view-head">
+        <h1>Setup &amp; API keys</h1>
+        <p>The engine runs on free data out of the box. Add keys below to unlock real backlink, traffic and ranking numbers.</p>
+      </header>
+
+      <div class="panel">
+        <div class="panel-title-row">
+          <h2>API status</h2>
+          <button class="btn btn-ghost" id="testApisBtn">Test my API keys</button>
+        </div>
+        <table class="data-table" id="apiStatusTable">
+          <thead><tr><th>Source</th><th>Status</th><th>Details</th><th>Get keys</th></tr></thead>
+          <tbody id="apiStatusBody"></tbody>
+        </table>
+      </div>
+
+      <form class="panel form-grid" id="settingsForm">
+        <h2 class="span-2">White-label settings</h2>
+        <div class="field"><label for="s-app_name">App name</label><input type="text" id="s-app_name"></div>
+        <div class="field"><label for="s-currency">Currency symbol</label><input type="text" id="s-currency"></div>
+        <div class="field"><label for="s-hourly_rate">Hourly rate</label><input type="number" id="s-hourly_rate" step="1"></div>
+        <div class="field"><label for="s-content_rate_per_word">Content rate / word</label><input type="number" id="s-content_rate_per_word" step="0.01"></div>
+        <div class="field"><label for="s-backlink_rate">Backlink rate</label><input type="number" id="s-backlink_rate" step="1"></div>
+        <div class="field span-2 form-actions">
+          <button type="submit" class="btn btn-primary">Save settings</button>
+          <span class="form-error" id="settingsSaved"></span>
+        </div>
+      </form>
+    </section>
+
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
